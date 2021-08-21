@@ -1,10 +1,59 @@
 {
-  
-  
   "version": 2,
-  
-  "projects": {},
+  "projects": {
+    "wiki-clock": {
+      "root": "packages/wiki-clock",
+      "sourceRoot": "packages/wiki-clock/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/packages/wiki-clock",
+            "main": "packages/wiki-clock/src/main.ts",
+            "tsConfig": "packages/wiki-clock/tsconfig.app.json",
+            "assets": ["packages/wiki-clock/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "packages/wiki-clock/src/environments/environment.ts",
+                  "with": "packages/wiki-clock/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "wiki-clock:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["packages/wiki-clock/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/packages/wiki-clock"],
+          "options": {
+            "jestConfig": "packages/wiki-clock/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
-  }
+    "defaultCollection": "@nrwl/express"
+  },
+  "defaultProject": "wiki-clock"
 }
