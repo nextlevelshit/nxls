@@ -41,6 +41,15 @@ app.get("/api", (req, res) => {
 			const coinFlip = Math.floor(Math.random() * (list.length + 1))
 			const random = cheerio(list[coinFlip]).html()
 
+			// Oh man, sag schon, was soll das
+			// ein falsches wort nach dem and'ern
+			//
+			// wir sind übertrieb'n gelad'n
+			// und hätten so viel zu sag'n
+			//
+			// doch ein falsches wort
+			// durchbricht diesen wundervollen ort
+
 			res.send({
 				year,
 				now,
