@@ -1,19 +1,23 @@
 {
   "version": 2,
+  "cli": {
+    "defaultCollection": "@nrwl/express"
+  },
+  "defaultProject": "wiki-bell",
   "projects": {
-    "wiki-clock": {
-      "root": "packages/wiki-clock",
-      "sourceRoot": "packages/wiki-clock/src",
+    "wiki-bell": {
+      "root": "packages/wiki-bell",
+      "sourceRoot": "packages/wiki-bell/src",
       "projectType": "application",
       "targets": {
         "build": {
           "executor": "@nrwl/node:build",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/packages/wiki-clock",
-            "main": "packages/wiki-clock/src/main.ts",
-            "tsConfig": "packages/wiki-clock/tsconfig.app.json",
-            "assets": ["packages/wiki-clock/src/assets"]
+            "outputPath": "dist/packages/wiki-bell",
+            "main": "packages/wiki-bell/src/main.ts",
+            "tsConfig": "packages/wiki-bell/tsconfig.app.json",
+            "assets": ["packages/wiki-bell/src/assets"]
           },
           "configurations": {
             "production": {
@@ -22,8 +26,8 @@
               "inspect": false,
               "fileReplacements": [
                 {
-                  "replace": "packages/wiki-clock/src/environments/environment.ts",
-                  "with": "packages/wiki-clock/src/environments/environment.prod.ts"
+                  "replace": "packages/wiki-bell/src/environments/environment.ts",
+                  "with": "packages/wiki-bell/src/environments/environment.prod.ts"
                 }
               ]
             }
@@ -32,28 +36,24 @@
         "serve": {
           "executor": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "wiki-clock:build"
+            "buildTarget": "wiki-bell:build"
           }
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["packages/wiki-clock/**/*.ts"]
+            "lintFilePatterns": ["packages/wiki-bell/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/packages/wiki-clock"],
+          "outputs": ["coverage/packages/wiki-bell"],
           "options": {
-            "jestConfig": "packages/wiki-clock/jest.config.js",
+            "jestConfig": "packages/wiki-bell/jest.config.js",
             "passWithNoTests": true
           }
         }
       }
     }
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/express"
-  },
-  "defaultProject": "wiki-clock"
+  }
 }

@@ -1,8 +1,4 @@
 {
-  "npmScope": "nxls",
-  "affected": {
-    "defaultBase": "master"
-  },
   "implicitDependencies": {
     "package.json": {
       "dependencies": "*",
@@ -10,6 +6,10 @@
     },
     ".eslintrc.json": "*"
   },
+  "affected": {
+    "defaultBase": "master"
+  },
+  "npmScope": "nxls",
   "tasksRunnerOptions": {
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
@@ -18,13 +18,13 @@
       }
     }
   },
-  "projects": {
-    "wiki-clock": {
-      "tags": []
-    }
-  },
   "workspaceLayout": {
     "appsDir": "packages",
     "libsDir": "packages"
+  },
+  "projects": {
+    "wiki-bell": {
+      "tags": []
+    }
   }
 }
