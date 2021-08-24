@@ -1,0 +1,1 @@
+{"version":3,"file":"component---src-pages-404-js-c34a15279738590fce8c.js","mappings":"kKAIA,UAFqB,kBAAM","sources":["webpack://gatsby-starter-default/./src/pages/404.js"],"sourcesContent":["import React from \"react\"\n\nconst NotFoundPage = () => <h1>NOT FOUND</h1>\n\nexport default NotFoundPage\n"],"names":[],"sourceRoot":""}
