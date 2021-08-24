@@ -1,5 +1,5 @@
 module.exports = {
-	pathPrefix: "/nxls",
+	pathPrefix: "/",
 	siteMetadata: {
 		title: `wiki-bell-ui`,
 		description: `This is a gatsby application created by Nx.`,
