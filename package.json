@@ -24,7 +24,8 @@
 		"workspace-generator": "nx workspace-generator",
 		"dep-graph": "nx dep-graph",
 		"help": "nx help",
-		"deploy:wikibell": "nx build wiki-bell-ui --prod"
+		"build:wikibell": "nx build wiki-bell-ui --prod --baseHref=wiki-bell-ui/ --deployUrl=https://nextlevelshit.github.io/",
+		"deploy:wikibell": "npm run build:wikibell && gh-pages -d packages/wiki-bell-ui/public"
 	},
 	"private": true,
 	"dependencies": {
