@@ -5,11 +5,13 @@
 
 import * as express from "express"
 import fetch from "node-fetch"
-import * as https from "https"
-import * as fs from "fs"
 import cheerio from "cheerio"
 
 const app = express()
+
+app.get("/", (req, res) => {
+	res.send("Wiki Bell API v1.0.0")
+})
 
 app.get("/api", (req, res) => {
 	const now = [
