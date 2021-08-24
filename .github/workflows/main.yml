@@ -22,4 +22,7 @@ jobs:
               run: npm install
             - name: Run Affected Test-Release
               shell: bash
-              run: npm run affected:test-release -- --base=$BEFORE_SHA
+              run: npm run affected:test -- --base=$BEFORE_SHA
+			- name: Build Wiki Bell UI
+			  shell: bash
+			  run: npm run deploy:wikibell
