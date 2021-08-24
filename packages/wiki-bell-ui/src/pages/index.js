@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import * as styles from "./index.module.css"
-import { useEffectOnce, useHarmonicIntervalFn } from "react-use"
+import { useHarmonicIntervalFn } from "react-use"
 
 export const Index = () => {
 	const baseUrl =

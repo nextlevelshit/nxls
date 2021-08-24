@@ -1,5 +1,5 @@
 module.exports = {
-	pathPrefix: "/wiki-bell-ui",
+	pathPrefix: "/nxls",
 	siteMetadata: {
 		title: `wiki-bell-ui`,
 		description: `This is a gatsby application created by Nx.`,
@@ -39,7 +39,6 @@ module.exports = {
 				background_color: `#663399`,
 				theme_color: `#663399`,
 				display: `minimal-ui`,
-				icon: `src/images/logo.svg`,
 			},
 		},
 	],
