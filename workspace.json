@@ -69,7 +69,9 @@
 						"profile": false
 					},
 					"configurations": {
-						"production": {}
+						"production": {
+							"prefixPaths": true
+						}
 					}
 				},
 				"serve": {
