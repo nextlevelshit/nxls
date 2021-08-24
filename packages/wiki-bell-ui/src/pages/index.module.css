@@ -1,0 +1,37 @@
+/*
+ * Remove template code below
+ */
+
+.page {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family: monospace;
+	min-width: 300px;
+	max-width: 600px;
+	margin: 50px auto;
+	height: 100%;
+}
+
+.page :global(main) {
+	padding: 0 36px;
+}
+
+.page :global(p) {
+	text-align: center;
+}
+
+.page :global(h1) {
+	text-align: center;
+	margin-left: 18px;
+	font-size: 24px;
+}
+
+.page footer {
+	margin-top: 12rem;
+	font-size: 42%;
+}
+
+.page h1 span {
+	opacity: 0.4;
+}

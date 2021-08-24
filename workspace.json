@@ -1,59 +1,109 @@
 {
-  "version": 2,
-  "cli": {
-    "defaultCollection": "@nrwl/express"
-  },
-  "defaultProject": "wiki-bell",
-  "projects": {
-    "wiki-bell": {
-      "root": "packages/wiki-bell",
-      "sourceRoot": "packages/wiki-bell/src",
-      "projectType": "application",
-      "targets": {
-        "build": {
-          "executor": "@nrwl/node:build",
-          "outputs": ["{options.outputPath}"],
-          "options": {
-            "outputPath": "dist/packages/wiki-bell",
-            "main": "packages/wiki-bell/src/main.ts",
-            "tsConfig": "packages/wiki-bell/tsconfig.app.json",
-            "assets": ["packages/wiki-bell/src/assets"]
-          },
-          "configurations": {
-            "production": {
-              "optimization": true,
-              "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "packages/wiki-bell/src/environments/environment.ts",
-                  "with": "packages/wiki-bell/src/environments/environment.prod.ts"
-                }
-              ]
-            }
-          }
-        },
-        "serve": {
-          "executor": "@nrwl/node:execute",
-          "options": {
-            "buildTarget": "wiki-bell:build"
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["packages/wiki-bell/**/*.ts"]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/packages/wiki-bell"],
-          "options": {
-            "jestConfig": "packages/wiki-bell/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    }
-  }
+	"version": 2,
+	"cli": {
+		"defaultCollection": "@nrwl/express"
+	},
+	"defaultProject": "wiki-bell",
+	"projects": {
+		"wiki-bell": {
+			"root": "packages/wiki-bell",
+			"sourceRoot": "packages/wiki-bell/src",
+			"projectType": "application",
+			"targets": {
+				"build": {
+					"executor": "@nrwl/node:build",
+					"outputs": ["{options.outputPath}"],
+					"options": {
+						"outputPath": "dist/packages/wiki-bell",
+						"main": "packages/wiki-bell/src/main.ts",
+						"tsConfig": "packages/wiki-bell/tsconfig.app.json",
+						"assets": ["packages/wiki-bell/src/assets"]
+					},
+					"configurations": {
+						"production": {
+							"optimization": true,
+							"extractLicenses": true,
+							"inspect": false,
+							"fileReplacements": [
+								{
+									"replace": "packages/wiki-bell/src/environments/environment.ts",
+									"with": "packages/wiki-bell/src/environments/environment.prod.ts"
+								}
+							]
+						}
+					}
+				},
+				"serve": {
+					"executor": "@nrwl/node:execute",
+					"options": {
+						"buildTarget": "wiki-bell:build"
+					}
+				},
+				"lint": {
+					"executor": "@nrwl/linter:eslint",
+					"options": {
+						"lintFilePatterns": ["packages/wiki-bell/**/*.ts"]
+					}
+				},
+				"test": {
+					"executor": "@nrwl/jest:jest",
+					"outputs": ["coverage/packages/wiki-bell"],
+					"options": {
+						"jestConfig": "packages/wiki-bell/jest.config.js",
+						"passWithNoTests": true
+					}
+				}
+			}
+		},
+		"wiki-bell-ui": {
+			"root": "packages/wiki-bell-ui",
+			"sourceRoot": "packages/wiki-bell-ui/src",
+			"projectType": "application",
+			"targets": {
+				"build": {
+					"executor": "@nrwl/gatsby:build",
+					"options": {
+						"outputPath": "packages/wiki-bell-ui/public",
+						"uglify": true,
+						"color": true,
+						"profile": false
+					},
+					"configurations": {
+						"production": {}
+					}
+				},
+				"serve": {
+					"executor": "@nrwl/gatsby:server",
+					"options": {
+						"buildTarget": "wiki-bell-ui:build"
+					},
+					"configurations": {
+						"production": {
+							"buildTarget": "wiki-bell-ui:build:production"
+						}
+					}
+				},
+				"lint": {
+					"executor": "@nrwl/linter:eslint",
+					"options": {
+						"lintFilePatterns": [
+							"packages/wiki-bell-ui/**/*.{ts,tsx,js,jsx}"
+						]
+					}
+				}
+			}
+		}
+	},
+	"generators": {
+		"@nrwl/react": {
+			"application": {
+				"babel": true
+			}
+		},
+		"@nrwl/gatsby": {
+			"application": {
+				"style": "css"
+			}
+		}
+	}
 }
