@@ -4,7 +4,7 @@ import { useHarmonicIntervalFn } from "react-use"
 
 export const Index = () => {
 	const baseUrl =
-		"development" === process.env.GATSBY_ENV
+		"development" === process.env.NODE_ENV
 			? "http://0.0.0.0:3333/api"
 			: "https://tengo.uber.space/api"
 	const [full, setFull] = useState(null)
