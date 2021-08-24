@@ -40,7 +40,7 @@ export const Index = () => {
 	}
 
 	useHarmonicIntervalFn(() => {
-		const nextH = "" + ("0" + new Date().getHours()).slice(-2)
+		const nextH = "" + new Date().getHours()
 		const nextM = "" + ("0" + new Date().getMinutes()).slice(-2)
 		const nextS = "" + ("0" + new Date().getSeconds()).slice(-2)
 
