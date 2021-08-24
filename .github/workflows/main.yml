@@ -25,4 +25,4 @@ jobs:
               run: npm run affected:test -- --base=$BEFORE_SHA
             - name: Build Wiki Bell UI
               shell: bash
-              run: npm run deploy:wikibell
+              run: npm run build:wikibell
