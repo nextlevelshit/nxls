@@ -29,12 +29,14 @@ const useDom = ($, time) => {
 			})
 	)
 
-	const closestEl = [...list].find((item) => {
+	const closestElements = [...list].filter((item) => {
 		if ((cheerio(item).text() as String).includes(time)) {
 			return true
 		}
 		return false
 	})
+	const closestEl =
+		closestElements[Math.floor(Math.random() * closestElements.length)]
 	const closest = {
 		html: cheerio(closestEl).html(),
 		raw: cheerio(closestEl).text(),

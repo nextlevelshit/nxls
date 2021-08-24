@@ -16,7 +16,8 @@ export const Index = () => {
 		useState(null),
 	]
 	const fetchData = (query) => {
-		fetch(`${baseUrl}/${parseInt(query)}/all`)
+		const year = parseInt(query)
+		fetch(`${baseUrl}/${year}/all`)
 			.then((res) => {
 				return res.json()
 			})
@@ -24,16 +25,17 @@ export const Index = () => {
 				console.log(data)
 				const { AC, BC } = data
 				setFull(data)
-				setWiki([
-					AC.closest?.raw ??
-						AC.random?.raw ??
-						BC.closest?.raw ??
-						BC.random?.raw,
-					AC.closest?.html ??
-						AC.random?.html ??
-						BC.closest?.html ??
-						BC.random?.html,
-				])
+				if (year > new Date().getFullYear) {
+					setWiki([
+						BC.closest?.raw ?? BC.random?.raw ?? AC.random?.raw,
+						BC.closest?.html ?? BC.random?.html ?? AC.random?.html,
+					])
+				} else {
+					setWiki([
+						AC.closest?.raw ?? AC.random?.raw,
+						AC.closest?.html ?? AC.random?.html,
+					])
+				}
 			})
 	}
 
@@ -81,7 +83,7 @@ export const Index = () => {
 							}}
 						/>
 					) : (
-						raw
+						<p>{raw}</p>
 					)}
 				</article>
 				<footer>

@@ -4,27 +4,17 @@
 
 .page {
 	display: flex;
-	justify-content: center;
+	width: 100%;
 	align-items: center;
 	font-family: monospace;
-	min-width: 300px;
-	max-width: 600px;
 	margin: 50px auto;
 	height: 100%;
+	color: #2b2e2d;
 }
 
-.page :global(main) {
+.page main {
 	padding: 0 36px;
-}
-
-.page :global(p) {
-	text-align: center;
-}
-
-.page :global(h1) {
-	text-align: center;
-	margin-left: 18px;
-	font-size: 24px;
+	width: 100%;
 }
 
 .page footer {
@@ -32,6 +22,35 @@
 	font-size: 42%;
 }
 
+.page h1 {
+	font-size: 12vw;
+	margin-bottom: 2rem;
+}
+
 .page h1 span {
 	opacity: 0.4;
+}
+
+.page a {
+	text-decoration: none;
+	color: #2b2e2d;
+}
+
+.page p {
+	font-size: 175%;
+}
+
+@media screen and (min-width: 1200px) {
+	.page p {
+		font-size: 4vw;
+	}
+}
+
+.page p::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	display: block;
+	width: 2rem;
+	border-top: 3px solid #23ac33;
 }
