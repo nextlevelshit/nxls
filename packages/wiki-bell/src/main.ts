@@ -7,42 +7,83 @@ import * as express from "express"
 import fetch from "node-fetch"
 import cheerio from "cheerio"
 
-const useDom = ($, time) => {
-	const all = $("ul > li")
-	const events = $('h2:contains("Events")').parent().find("ul > li")
-	const births = $('h2:contains("Births")').parent().find("ul > li")
-	const deaths = $('h2:contains("Deaths")').parent().find("ul > li")
-	const topics = [...events, ...births, ...deaths]
-	const list = topics.length ? topics : all
-	const coinFlip = Math.floor(Math.random() * list.length)
-	const randomEl = cheerio(list[coinFlip])
-	const random = {
-		html: randomEl.html(),
-		raw: randomEl.text(),
-	}
-
-	console.log(
-		cheerio(all)
-			.toArray()
-			.map((a) => {
-				return cheerio(a).text()
-			})
-	)
-
+const useElements = (list, search) => {
 	const closestElements = [...list].filter((item) => {
-		if ((cheerio(item).text() as String).includes(time)) {
+		console.log(cheerio(item).text(), search)
+		if ((cheerio(item).text() as String).includes(search)) {
 			return true
 		}
 		return false
 	})
 	const closestEl =
 		closestElements[Math.floor(Math.random() * closestElements.length)]
-	const closest = {
-		html: cheerio(closestEl).html(),
-		raw: cheerio(closestEl).text(),
-	}
+	const randomEl = list[Math.floor(Math.random() * closestElements.length)]
 
-	return { random, closest }
+	return {
+		closest: {
+			html: cheerio(closestEl).html(),
+			raw: cheerio(closestEl).text(),
+		},
+		random: {
+			html: cheerio(randomEl).html(),
+			raw: cheerio(randomEl).text(),
+		},
+	}
+}
+
+const useDom = ($, search) => {
+	const all = $("ul > li")
+	const eventsList = $('h2:contains("Events")').parent().find("ul > li")
+	const events = {
+		...useElements(eventsList, search),
+		type: "event",
+	}
+	const birthsList = $('h2:contains("Births")').parent().find("ul > li")
+	const births = {
+		...useElements(birthsList, search),
+		type: "birth",
+	}
+	const deathsList = $('h2:contains("Deaths")').parent().find("ul > li")
+	const deaths = {
+		...useElements(deathsList, search),
+		type: "event",
+	}
+	// const births = $('h2:contains("Births")').parent().find("ul > li")
+	// const deaths = $('h2:contains("Deaths")').parent().find("ul > li")
+	// const topics = [...events, ...births, ...deaths]
+	// const list = topics.length ? topics : all
+	// const coinFlip = Math.floor(Math.random() * list.length)
+	// const randomEl = cheerio(list[coinFlip])
+	// const random = {
+	// 	html: randomEl.html(),
+	// 	raw: randomEl.text(),
+	// 	type: "random",
+	// }
+
+	// console.log(events)
+
+	// console.log(
+	// 	cheerio(all)
+	// 		.toArray()
+	// 		.map((a) => {
+	// 			return cheerio(a).text()
+	// 		})
+	// )
+
+	// const closestElements = [...list].filter((item) => {
+	// 	if ((cheerio(item).text() as String).includes(search)) {
+	// 		return true
+	// 	}
+	// 	return false
+	// })
+	// const closestEl =
+	// 	closestElements[Math.floor(Math.random() * closestElements.length)]
+	// const closest = {
+	// 	html: cheerio(closestEl).html(),
+	// 	raw: cheerio(closestEl).text(),
+	// }
+
+	return { births, events, deaths, random: null, closest: null }
 }
 
 const app = express()
@@ -136,11 +177,17 @@ app.get("/api/:time/all", (req, res) => {
 		.then((data) => data.text())
 		.then((raw) => cheerio.load(raw))
 		.then(($) => {
-			const { random, closest } = useDom($, timeEscaped)
+			const { random, closest, events, births, deaths } = useDom(
+				$,
+				timeEscaped
+			)
 			const AC = {
 				timeEscaped,
 				random,
 				closest,
+				events,
+				births,
+				deaths,
 			}
 
 			fetch(

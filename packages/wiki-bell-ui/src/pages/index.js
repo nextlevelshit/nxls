@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { romanize } from "romans"
 import * as styles from "./index.module.css"
-import { useHarmonicIntervalFn } from "react-use"
+import { useEffectOnce, useHarmonicIntervalFn } from "react-use"
 
 export const Index = () => {
 	const baseUrl =
@@ -48,26 +48,33 @@ export const Index = () => {
 			})
 	}
 
-	useHarmonicIntervalFn(() => {
-		const nextH = "" + new Date().getHours()
-		const nextM = "" + ("0" + new Date().getMinutes()).slice(-2)
-		const nextS = "" + ("0" + new Date().getSeconds()).slice(-2)
+	const useTime = () => {
+		const h = "" + new Date().getHours()
+		const m = "" + ("0" + new Date().getMinutes()).slice(-2)
+		const s = "" + ("0" + new Date().getSeconds()).slice(-2)
 
-		if (nextS % 5 !== 0) return
+		return [h, m, s]
+	}
+
+	const update = () => {
+		const [nextH, nextM, nextS] = useTime()
+		const remainerS = nextS % 5
+		const roundedNextS = nextS - remainerS
+
+		setH(nextH)
+		setM(nextM)
+		setS(roundedNextS)
 
 		if (nextM !== m) {
-			setM(nextM)
 			fetchData(nextH + nextM)
 		}
+	}
 
-		if (nextH !== h) {
-			setH(nextH)
-		}
-
-		if (nextS !== s) {
-			setS(nextS)
-		}
+	useHarmonicIntervalFn(() => {
+		update()
 	}, 1000)
+
+	useEffectOnce(() => update())
 
 	const __html = html?.replace(
 		/href=\"\.\//gm,
@@ -94,7 +101,7 @@ export const Index = () => {
 						</h1>
 					) : (
 						<h1>
-							<span>00:00:00</span>
+							<span>&nbsp;</span>
 						</h1>
 					)}
 
