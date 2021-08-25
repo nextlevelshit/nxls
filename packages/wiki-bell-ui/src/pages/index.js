@@ -9,6 +9,7 @@ export const Index = () => {
 			? "http://0.0.0.0:3333/api"
 			: "https://tengo.uber.space/api"
 	const [isBC, setBC] = useState(false)
+	const [topic, setTopic] = useState("events")
 	const [blink, setBlink] = useState(false)
 	const [suffix, setSuffix] = useState("")
 	const [full, setFull] = useState(null)
@@ -34,14 +35,7 @@ export const Index = () => {
 				} else {
 					setBC(false)
 				}
-
-				const item =
-					((category.events?.closest || category.events?.random) &&
-						category.events) ||
-					((category.births?.closest || category.births?.random) &&
-						category.births) ||
-					((category.deaths?.closest || category.deaths?.random) &&
-						category.deaths)
+				const item = category[topic]
 
 				setSuffix(item?.suffix)
 				setWiki([
@@ -74,6 +68,14 @@ export const Index = () => {
 		}
 	}
 
+	const toggleTopic = () => {
+		const topics = ["births", "deaths", "events"]
+		const key = (topics.findIndex((t) => topic === t) + 1) % topics.length
+
+		setTopic(topics[key])
+		fetchData(h + m)
+	}
+
 	useHarmonicIntervalFn(() => {
 		update()
 	}, 1000)
@@ -95,7 +97,7 @@ export const Index = () => {
 				<article>
 					{h && m ? (
 						<h1
-							onClick={() => fetchData(h + m)}
+							onClick={() => toggleTopic()}
 							role={"button"}
 							tabIndex={0}
 							ariaLabel={"Get another WikiPedia article"}

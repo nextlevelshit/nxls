@@ -55,40 +55,6 @@ const useDom = ($, search) => {
 		type: "death",
 		suffix: "died",
 	}
-	// const births = $('h2:contains("Births")').parent().find("ul > li")
-	// const deaths = $('h2:contains("Deaths")').parent().find("ul > li")
-	// const topics = [...events, ...births, ...deaths]
-	// const list = topics.length ? topics : all
-	// const coinFlip = Math.floor(Math.random() * list.length)
-	// const randomEl = cheerio(list[coinFlip])
-	// const random = {
-	// 	html: randomEl.html(),
-	// 	raw: randomEl.text(),
-	// 	type: "random",
-	// }
-
-	// console.log(events)
-
-	// console.log(
-	// 	cheerio(all)
-	// 		.toArray()
-	// 		.map((a) => {
-	// 			return cheerio(a).text()
-	// 		})
-	// )
-
-	// const closestElements = [...list].filter((item) => {
-	// 	if ((cheerio(item).text() as String).includes(search)) {
-	// 		return true
-	// 	}
-	// 	return false
-	// })
-	// const closestEl =
-	// 	closestElements[Math.floor(Math.random() * closestElements.length)]
-	// const closest = {
-	// 	html: cheerio(closestEl).html(),
-	// 	raw: cheerio(closestEl).text(),
-	// }
 
 	return { births, events, deaths, random: null, closest: null }
 }
