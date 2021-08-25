@@ -47,6 +47,13 @@
 	color: #2b2e2d;
 }
 
+.page a:hover,
+.page a:focus {
+	color: #23ac33;
+	outline-offset: 0.2rem;
+	outline: #a7c018 dashed 1px;
+}
+
 .page p {
 	font-size: 175%;
 }

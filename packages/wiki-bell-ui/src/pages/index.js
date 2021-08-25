@@ -79,11 +79,16 @@ export const Index = () => {
 			<main>
 				<article>
 					{h && m && s ? (
-						<h1 onClick={() => fetchData(h + m)}>
+						<h1
+							onClick={() => fetchData(h + m)}
+							role={"button"}
+							tabIndex={0}
+							ariaLabel={"Get another WikiPedia article"}
+						>
 							{h}
 							&#8239;
 							{m}
-							{isBC && <span className={"bc"}>BC</span>}
+							{isBC && BC}
 							&#8239;
 							{s > 0 ? <span>{romanize(parseInt(s))}</span> : "·"}
 						</h1>
