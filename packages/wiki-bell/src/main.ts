@@ -20,14 +20,18 @@ const useElements = (list, search) => {
 	const randomEl = list[Math.floor(Math.random() * closestElements.length)]
 
 	return {
-		closest: {
-			html: cheerio(closestEl).html(),
-			raw: cheerio(closestEl).text(),
-		},
-		random: {
-			html: cheerio(randomEl).html(),
-			raw: cheerio(randomEl).text(),
-		},
+		closest: closestEl
+			? {
+					html: cheerio(closestEl).html(),
+					raw: cheerio(closestEl).text(),
+			  }
+			: null,
+		random: randomEl
+			? {
+					html: cheerio(randomEl).html(),
+					raw: cheerio(randomEl).text(),
+			  }
+			: null,
 	}
 }
 
@@ -37,16 +41,19 @@ const useDom = ($, search) => {
 	const events = {
 		...useElements(eventsList, search),
 		type: "event",
+		suffix: "happend",
 	}
 	const birthsList = $('h2:contains("Births")').parent().find("ul > li")
 	const births = {
 		...useElements(birthsList, search),
 		type: "birth",
+		suffix: "was born",
 	}
 	const deathsList = $('h2:contains("Deaths")').parent().find("ul > li")
 	const deaths = {
 		...useElements(deathsList, search),
-		type: "event",
+		type: "death",
+		suffix: "died",
 	}
 	// const births = $('h2:contains("Births")').parent().find("ul > li")
 	// const deaths = $('h2:contains("Deaths")').parent().find("ul > li")

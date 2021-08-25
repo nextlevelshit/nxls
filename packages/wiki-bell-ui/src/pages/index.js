@@ -9,6 +9,8 @@ export const Index = () => {
 			? "http://0.0.0.0:3333/api"
 			: "https://tengo.uber.space/api"
 	const [isBC, setBC] = useState(false)
+	const [blink, setBlink] = useState(false)
+	const [suffix, setSuffix] = useState("")
 	const [full, setFull] = useState(null)
 	const [wiki, setWiki] = useState(["Waiting is not a crime ..."])
 	const [raw, html] = wiki
@@ -25,33 +27,35 @@ export const Index = () => {
 			})
 			.then((data) => {
 				const { AC, BC } = data
+				let category = AC
 				if (year > new Date().getFullYear) {
-					if (BC.closest?.raw || BC.random?.raw) {
-						setBC(true)
-						setWiki([
-							BC.closest?.raw ?? BC.random?.raw,
-							BC.closest?.html ?? BC.random?.html,
-						])
-					} else {
-						setBC(false)
-						setWiki([setWiki([AC.random?.raw, AC.random?.html])])
-					}
+					category = BC
+					setBC(true)
 				} else {
 					setBC(false)
-					setWiki([
-						AC.closest?.raw ?? AC.random?.raw,
-						AC.closest?.html ?? AC.random?.html,
-					])
 				}
+
+				const item =
+					((category.events?.closest || category.events?.random) &&
+						category.events) ||
+					((category.births?.closest || category.births?.random) &&
+						category.births) ||
+					((category.deaths?.closest || category.deaths?.random) &&
+						category.deaths)
+
+				setSuffix(item?.suffix)
+				setWiki([
+					item.closest?.raw || item.random?.raw,
+					item.closest?.html || item.random?.html,
+				])
 				setFull(data)
-				console.log(data)
 			})
 	}
 
 	const useTime = () => {
-		const h = "" + new Date().getHours()
-		const m = "" + ("0" + new Date().getMinutes()).slice(-2)
-		const s = "" + ("0" + new Date().getSeconds()).slice(-2)
+		const h = new Date().getHours().toString()
+		const m = ("0" + new Date().getMinutes()).slice(-2).toString()
+		const s = ("0" + new Date().getSeconds()).slice(-2).toString()
 
 		return [h, m, s]
 	}
@@ -74,6 +78,10 @@ export const Index = () => {
 		update()
 	}, 1000)
 
+	useHarmonicIntervalFn(() => {
+		setBlink(!blink)
+	}, 500)
+
 	useEffectOnce(() => update())
 
 	const __html = html?.replace(
@@ -85,19 +93,21 @@ export const Index = () => {
 		<div className={styles.page}>
 			<main>
 				<article>
-					{h && m && s ? (
+					{h && m ? (
 						<h1
 							onClick={() => fetchData(h + m)}
 							role={"button"}
 							tabIndex={0}
 							ariaLabel={"Get another WikiPedia article"}
 						>
-							{h}
+							<span>in</span>
 							&#8239;
+							{h}
+							<span>{blink ? ":" : " "}</span>
 							{m}
 							{isBC && BC}
 							&#8239;
-							{s > 0 ? <span>{romanize(parseInt(s))}</span> : "·"}
+							<span>{suffix ?? ""}</span>
 						</h1>
 					) : (
 						<h1>
@@ -107,6 +117,7 @@ export const Index = () => {
 
 					{html ? (
 						<p
+							style={{ borderWidth: `${s * 2}px` }}
 							dangerouslySetInnerHTML={{
 								__html,
 							}}
