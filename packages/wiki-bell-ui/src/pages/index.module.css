@@ -25,10 +25,21 @@
 .page h1 {
 	font-size: 12vw;
 	margin-bottom: 2rem;
+	transition: color 260ms 60ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+
+.page h1:hover {
+	cursor: pointer;
+	color: #23ac33;
 }
 
 .page h1 span {
 	opacity: 0.4;
+}
+
+.page h1 span.bc {
+	font-size: 30%;
+	font-style: italic;
 }
 
 .page a {
