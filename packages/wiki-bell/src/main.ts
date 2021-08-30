@@ -6,6 +6,7 @@
 import * as express from "express"
 import fetch from "node-fetch"
 import cheerio from "cheerio"
+import * as cors from "cors"
 
 const useElements = (list, search) => {
 	const closestElements = [...list].filter((item) => {
@@ -60,6 +61,8 @@ const useDom = ($, search) => {
 }
 
 const app = express()
+
+app.use(cors())
 
 app.get("/", (req, res) => {
 	res.send("Wiki Bell API v1.0.0")

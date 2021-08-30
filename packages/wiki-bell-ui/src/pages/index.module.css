@@ -2,19 +2,34 @@
  * Remove template code below
  */
 
+body,
+html {
+	margin: 0;
+	padding: 0;
+	background: rgb(141, 199, 191);
+}
+
+pre {
+	/* display: none; */
+	width: 100%;
+	overflow: auto;
+}
+
 .page {
 	display: flex;
 	width: 100%;
 	align-items: center;
 	font-family: monospace;
-	margin: 50px auto;
+	margin: 0 auto 50px;
 	height: 100%;
 	color: #2b2e2d;
+	position: relative;
 }
 
 .page main {
-	padding: 0 36px;
+	margin: 0 2rem;
 	width: 100%;
+	z-index: 10;
 }
 
 .page footer {
@@ -23,16 +38,24 @@
 }
 
 .page h1 {
-	font-size: 8vw;
+	font-size: 7vw;
 	margin-bottom: 2rem;
 	transition: color 260ms 60ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
 	letter-spacing: -0.4vw;
-	white-space: nowrap;
+	/* white-space: nowrap; */
 }
 
 .page h1:hover {
 	cursor: pointer;
-	color: #23ac33;
+}
+
+.page h1:active {
+	text-decoration: underline;
+}
+
+.page h1:hover span {
+	cursor: pointer;
+	opacity: 1 !important;
 }
 
 .page h1 span {
@@ -44,16 +67,45 @@
 	font-style: italic;
 }
 
+.page hr {
+	position: absolute;
+	top: 0;
+	left: 0;
+	/* right: 0; */
+	display: flex;
+	justify-content: flex-end;
+	background: #70a9a1;
+	/* padding: 5rem; */
+	z-index: 1;
+	margin: 0;
+	width: 1rem;
+	border: none;
+	transition: height 270ms ease-in-out, background 666ms ease-in-out;
+	/* opacity: 0.4; */
+}
+
 .page a {
 	text-decoration: none;
-	color: #2b2e2d;
+	color: black;
+	transition: all 50ms cubic-bezier(0.6, 0.04, 0.98, 0.335);
+	/* outline: transparent dotted 1px; */
+	outline: #71aaa1 solid 0.2rem;
+	background: #71aaa1;
+	/* outline-offset: 0.1rem; */
+}
+
+.page a.author,
+.page a.author:hover,
+.page a.author:focus {
+	background: none;
 }
 
 .page a:hover,
 .page a:focus {
-	color: #23ac33;
-	outline-offset: 0.2rem;
-	outline: #a7c018 dashed 1px;
+	/* color: black; */
+	background: #5b8a83;
+	/* outline-color: #23ac33; */
+	outline: #5b8a83 solid 0.3rem;
 }
 
 .page p {
@@ -63,7 +115,8 @@
 	border-left-width: 0;
 	border-left-style: solid;
 	border-left-color: #000;
-	padding-left: 3rem;
+	padding-left: 0.1rem;
+	/* padding-left: 3rem; */
 }
 
 /* .page p::before {

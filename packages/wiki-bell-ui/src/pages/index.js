@@ -3,17 +3,18 @@ import { romanize } from "romans"
 import * as styles from "./index.module.css"
 import { useEffectOnce, useHarmonicIntervalFn } from "react-use"
 
-export const Index = () => {
-	const baseUrl =
-		"development" === process.env.NODE_ENV
-			? "http://0.0.0.0:3333/api"
-			: "https://tengo.uber.space/api"
+const isDebug = "development" === process.env.NODE_ENV
+
+const Index = () => {
+	const baseUrl = isDebug
+		? "http://0.0.0.0:3333/api"
+		: "https://tengo.uber.space/api"
 	const [isBC, setBC] = useState(false)
 	const [topic, setTopic] = useState("events")
-	const [blink, setBlink] = useState(false)
-	const [suffix, setSuffix] = useState("")
+	const [pulse, setPulse] = useState(false)
+	const wikiDefault = ["Waiting is not a crime ..."]
 	const [full, setFull] = useState(null)
-	const [wiki, setWiki] = useState(["Waiting is not a crime ..."])
+	const [wiki, setWiki] = useState(wikiDefault)
 	const [raw, html] = wiki
 	const [[h, setH], [m, setM], [s, setS]] = [
 		useState(0),
@@ -21,6 +22,7 @@ export const Index = () => {
 		useState(0),
 	]
 	const fetchData = (query) => {
+		setWiki(wikiDefault)
 		const year = parseInt(query)
 		fetch(`${baseUrl}/${year}/all`)
 			.then((res) => {
@@ -29,7 +31,7 @@ export const Index = () => {
 			.then((data) => {
 				const { AC, BC } = data
 				let category = AC
-				if (year > new Date().getFullYear) {
+				if (year > new Date().getFullYear() || year < 100) {
 					category = BC
 					setBC(true)
 				} else {
@@ -37,7 +39,6 @@ export const Index = () => {
 				}
 				const item = category[topic]
 
-				setSuffix(item?.suffix)
 				setWiki([
 					item.closest?.raw || item.random?.raw,
 					item.closest?.html || item.random?.html,
@@ -54,19 +55,24 @@ export const Index = () => {
 		return [h, m, s]
 	}
 
-	const update = () => {
+	/**
+	 * @param interval number - in miliseconds (optional)
+	 */
+	const update = (interval = 5000) => {
 		const [nextH, nextM, nextS] = useTime()
-		const remainerS = nextS % 5
-		const roundedNextS = nextS - remainerS
+		const remainerS = nextS % (interval * 0.001)
+		const roundedNextS = Math.floor(nextS - remainerS)
 
-		setH(nextH)
-		setM(nextM)
 		setS(roundedNextS)
+		setM(nextM)
+		setH(nextH)
 
 		if (nextM !== m) {
 			fetchData(nextH + nextM)
 		}
 	}
+
+	const updateEachSecond = () => update(1000)
 
 	const toggleTopic = () => {
 		const topics = ["births", "deaths", "events"]
@@ -76,23 +82,45 @@ export const Index = () => {
 		fetchData(h + m)
 	}
 
+	const useTopics = () => {
+		const list = [
+			["births", "Who was born"],
+			["deaths", "Who died"],
+			["events", "What happend"],
+		]
+		const map = new Map(list)
+		const prefix = map.get(topic)
+		const topics = map.keys()
+
+		return { list, map, prefix, topics }
+	}
+
 	useHarmonicIntervalFn(() => {
-		update()
+		updateEachSecond()
 	}, 1000)
 
 	useHarmonicIntervalFn(() => {
-		setBlink(!blink)
+		setPulse(!pulse)
 	}, 500)
 
-	useEffectOnce(() => update())
+	useEffectOnce(() => updateEachSecond())
 
 	const __html = html?.replace(
 		/href=\"\.\//gm,
 		'target="_blank" href="https://en.wikipedia.org/wiki/'
 	)
 
+	const { prefix } = useTopics()
+
 	return (
 		<div className={styles.page}>
+			<hr
+				style={{
+					height: (s / 60) * 100 + "vh",
+					// opacity: (s / 60) * 100 + "%",
+					// background: pulse ? "#70A9A1" : "#F6F1D1",
+				}}
+			/>
 			<main>
 				<article>
 					{h && m ? (
@@ -100,16 +128,21 @@ export const Index = () => {
 							onClick={() => toggleTopic()}
 							role={"button"}
 							tabIndex={0}
-							ariaLabel={"Get another WikiPedia article"}
+							aria-label={"Get another WikiPedia article"}
 						>
-							<span>in</span>
-							&#8239;
-							{h}
-							<span>{blink ? ":" : " "}</span>
+							<span>
+								It is {h}
+								{pulse ? ":" : " "}
+								{m}
+							</span>
+							<br />
+							<br />
+							<span>{prefix && `${prefix} `}</span>
+							<span>{isBC ? "around" : "in"}</span> the year{" "}
+							{h > 0 && h}
 							{m}
-							{isBC && BC}
-							&#8239;
-							<span>{suffix ?? ""}</span>
+							{isBC && " BC"}
+							?!
 						</h1>
 					) : (
 						<h1>
@@ -119,7 +152,6 @@ export const Index = () => {
 
 					{html ? (
 						<p
-							style={{ borderWidth: `${s * 2}px` }}
 							dangerouslySetInnerHTML={{
 								__html,
 							}}
@@ -129,7 +161,19 @@ export const Index = () => {
 					)}
 				</article>
 				<footer>
-					<center>with {"<3"} dailysh.it</center>
+					{/* {isDebug && <pre>{JSON.stringify(full, null, 2)} </pre>} */}
+					<center>
+						with {"<3"}{" "}
+						<a
+							className={"author"}
+							target={"_blank"}
+							href={
+								"https://dailysh.it?sendWithLoveFromWikiDailyshIt"
+							}
+						>
+							dailysh.it
+						</a>
+					</center>
 				</footer>
 			</main>
 		</div>
