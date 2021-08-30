@@ -31,7 +31,7 @@ const Index = () => {
 			.then((data) => {
 				const { AC, BC } = data
 				let category = AC
-				if (year > new Date().getFullYear() || year < 100) {
+				if (year > new Date().getFullYear() || year < 200) {
 					category = BC
 					setBC(true)
 				} else {
@@ -84,9 +84,9 @@ const Index = () => {
 
 	const useTopics = () => {
 		const list = [
-			["births", "Who was born"],
-			["deaths", "Who died"],
-			["events", "What happend"],
+			["births", "So, who was born"],
+			["deaths", "So, who died"],
+			["events", "So, what happend"],
 		]
 		const map = new Map(list)
 		const prefix = map.get(topic)
@@ -101,7 +101,7 @@ const Index = () => {
 
 	useHarmonicIntervalFn(() => {
 		setPulse(!pulse)
-	}, 500)
+	}, 1000)
 
 	useEffectOnce(() => updateEachSecond())
 
@@ -116,7 +116,7 @@ const Index = () => {
 		<div className={styles.page}>
 			<hr
 				style={{
-					height: (s / 60) * 100 + "vh",
+					height: Math.abs(Math.cos((s / 60) * Math.PI)) * 100 + "vh",
 					// opacity: (s / 60) * 100 + "%",
 					// background: pulse ? "#70A9A1" : "#F6F1D1",
 				}}
@@ -157,7 +157,7 @@ const Index = () => {
 							}}
 						/>
 					) : (
-						<p>{raw}</p>
+						<p>{raw ?? wikiDefault[0]}</p>
 					)}
 				</article>
 				<footer>

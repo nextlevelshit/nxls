@@ -116,6 +116,7 @@ pre {
 	border-left-style: solid;
 	border-left-color: #000;
 	padding-left: 0.1rem;
+	line-height: 1.75;
 	/* padding-left: 3rem; */
 }
 
