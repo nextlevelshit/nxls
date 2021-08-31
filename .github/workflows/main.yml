@@ -19,16 +19,18 @@ jobs:
               with:
                   node-version: 12.x
             - run: git fetch origin main
-            - run: git config --global user.email "noreply@dailysh.it"
-            - run: git config --global user.name "github-github-actions-bot"
+            - run: git config --local user.email "action@github.com"
+            - run: git config --local user.name "Github Action"
             - name: npm install
               run: npm install
             - name: Run Affected Test-Release
               shell: bash
               run: npm run affected:test -- --base=$BEFORE_SHA
             - name: Build Wiki Bell UI
+			  if: ${{ success() }}
               shell: bash
               run: npm run build:wikibell
             - name: Deploy Wiki Bell UI
+			  if: ${{ success() }}
               shell: bash
               run: npm run deploy:wikibell
