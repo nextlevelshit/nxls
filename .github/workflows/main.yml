@@ -27,10 +27,10 @@ jobs:
               shell: bash
               run: npm run affected:test -- --base=$BEFORE_SHA
             - name: Build Wiki Bell UI
-			  if: ${{ success() }}
+              if: ${{ success() }}
               shell: bash
               run: npm run build:wikibell
             - name: Deploy Wiki Bell UI
-			  if: ${{ success() }}
+              if: ${{ success() }}
               shell: bash
               run: npm run deploy:wikibell
