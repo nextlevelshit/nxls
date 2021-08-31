@@ -20,7 +20,7 @@ jobs:
                   node-version: 12.x
             - run: git fetch origin main
             - run: git config --global user.email "noreply@dailysh.it"
-            - run: git config --global user.name "GitHub Actions"
+            - run: git config --global user.name "github-github-actions-bot"
             - name: npm install
               run: npm install
             - name: Run Affected Test-Release
