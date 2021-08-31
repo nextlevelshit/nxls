@@ -8,7 +8,7 @@ env:
     BEFORE_SHA: ${{ github.event.before }}
 jobs:
     build:
-		name: Build wiki.dailysh.it
+        name: Build wiki.dailysh.it
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
@@ -19,8 +19,8 @@ jobs:
               with:
                   node-version: 12.x
             - run: git fetch origin main
-			- run: git config --global user.email "noreply@dailysh.it"
-  			- run: git config --global user.name "GitHub Actions"
+            - run: git config --global user.email "noreply@dailysh.it"
+            - run: git config --global user.name "GitHub Actions"
             - name: npm install
               run: npm install
             - name: Run Affected Test-Release
