@@ -26,3 +26,6 @@ jobs:
             - name: Build Wiki Bell UI
               shell: bash
               run: npm run build:wikibell
+			- name: Deploy Wiki Bell UI
+              shell: bash
+              run: npm run deploy:wikibell
